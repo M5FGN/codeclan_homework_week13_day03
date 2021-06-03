@@ -20,14 +20,26 @@ public class DistilleryController {
     @Autowired
     DistilleryRepository distilleryRepository;
 
-    @GetMapping(value="/distillery")
-    public ResponseEntity<List<Distillery>> getAllDistilleries(){
+//    @GetMapping(value="/distillery")
+//    public ResponseEntity<List<Distillery>> getAllDistilleries(){
+//        return new ResponseEntity<>(distilleryRepository.findAll(), HttpStatus.OK);
+//    }
+//
+//    @GetMapping(value = "/distillery/{region}")
+//    public ResponseEntity getDistilleryByRegion(@PathVariable String region) {
+//        return new ResponseEntity<>(distilleryRepository.findByRegion(region), HttpStatus.OK);
+//    }
+
+    //http://localhost:8080/distilleries?region=Highland
+    @GetMapping(value = "/distilleries")
+    public ResponseEntity getDistilleries(
+            @RequestParam(name="region", required = false) String region
+    ){
+        if (region != null) {
+            return new ResponseEntity(distilleryRepository.findByRegion(region), HttpStatus.OK);
+        }
         return new ResponseEntity<>(distilleryRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/distillery/{region}")
-    public ResponseEntity getDistilleryByRegion(@PathVariable String region) {
-        return new ResponseEntity<>(distilleryRepository.findByRegion(region), HttpStatus.OK);
-    }
 
 }
